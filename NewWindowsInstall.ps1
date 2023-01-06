@@ -1,16 +1,26 @@
 # UNINSTALL UNWANTED APPS
 
-$packages = @("Microsoft.BingWeather", "Microsoft.XboxApp", "Microsoft.Todos", "Microsoft.WindowsMaps", "Microsoft.MicrosoftStickyNotes", "Microsoft.WindowsSoundRecorder", "Microsoft.PowerAutomateDesktop", "Microsoft.GetHelp", "Microsoft.ZuneVideo", "Microsoft.People", "Microsoft.XboxSpeechToTextOverlay", "Microsoft.OneDriveSync", "Microsoft.3DBuilder", "Microsoft.Getstarted", "Microsoft.Microsoft3DViewer", "Microsoft.MicrosoftOfficeHub", "Microsoft.MicrosoftSolitaireCollection", "Microsoft.MicrosoftStickyNotes", "Microsoft.MixedReality.Portal", "Microsoft.Office.OneNote", "Microsoft.Print3D", "Microsoft.SkypeApp", "Microsoft.WindowsCamera", "Microsoft.WindowsFeedbackHub")
+$packages = @("Clipchamp.Clipchamp", "Microsoft.YourPhone", "Microsoft.BingNews", "Microsoft.BingWeather", "Microsoft.XboxApp", "Microsoft.Todos", "Microsoft.WindowsMaps", "Microsoft.MicrosoftStickyNotes", "Microsoft.WindowsSoundRecorder", "Microsoft.GetHelp", "Microsoft.ZuneVideo", "Microsoft.People", "Microsoft.OneDriveSync", "Microsoft.3DBuilder", "Microsoft.Getstarted", "Microsoft.Microsoft3DViewer", "Microsoft.MicrosoftOfficeHub", "Microsoft.MicrosoftSolitaireCollection", "Microsoft.MicrosoftStickyNotes", "Microsoft.MixedReality.Portal", "Microsoft.Office.OneNote", "Microsoft.Print3D", "Microsoft.SkypeApp", "Microsoft.WindowsCamera", "Microsoft.WindowsFeedbackHub")
 
 foreach ($package in $packages) {
-    # Add a counter to show the progress
-    $i = $i + 1
-    # Get the total number of packages to uninstall
-    $count = $packages.Count
-    
-    Write-Host "Desintalando ($i/$count): $package"
-    $job = Start-Job -ScriptBlock { Get-AppxPackage $package | Remove-AppxPackage }
-    Wait-Job $job | Out-Null # Avoids the job from being written to the console
+  # Add a counter to show the progress
+  $i = $i + 1
+  # Get the total number of packages to uninstall
+  $count = $packages.Count
+  
+  try {
+    # Check if the app package is installed
+    $app = Get-AppxPackage $package
+    if ($app -ne $null) {
+        Write-Output "Desintalando ($i/$count): $package"
+        $job = Start-Job -ScriptBlock { Get-AppxPackage $package | Remove-AppxPackage }
+        Wait-Job $job | Out-Null # Avoids the job from being written to the console
+    } else {
+        Write-Output "$package no esta instalado"
+    }
+  } catch {
+      Write-Output "Error desintalando $package: $($_.Exception.Message)"
+  }
 }
 
 # INSTALL APPS
@@ -62,7 +72,7 @@ if (Get-Command choco -ErrorAction SilentlyContinue) {
 } else {
   # Install Chocolatey
   Write-Output "Instalando Chocolatey..."
-  cmd /c setx ChocolateyInstall $chocoDirectory /M && SET "ChocolateyInstall=$chocoDirectory" && "%SystemRoot%\System32\WindowsPowerShell\v1.0\powershell.exe" -NoProfile -ExecutionPolicy Bypass -Command "iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))" && SET "PATH=%PATH%;%ALLUSERSPROFILE%\chocolatey\bin"
+  Start-Process ./InstallingChoco.bat -Wait
   RefreshEnv
   Write-Output "Chocolatey instalado."
 }
