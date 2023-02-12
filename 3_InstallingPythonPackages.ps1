@@ -1,4 +1,8 @@
-# Install Python packages
+####################################################
+# Shell: Powershell (como administrador)
+# Pasos: # Instalar paquetes de Python
+#        # Configurar ocrmypdf
+####################################################
 
 # Create an array with the packages to install
 
@@ -20,4 +24,4 @@ if (Test-Path spa.traineddata) {
   Move-Item spa.traineddata "C:\Program Files\Tesseract-OCR\tessdata\spa.traineddata"
 }
 
-Start-Process powershell.exe -Verb Runas -ArgumentList '-NoExit -File ./InstallingNPM.ps1'
+# Start-Process powershell.exe -Verb Runas -ArgumentList '-NoExit -File ./InstallingNPM.ps1'

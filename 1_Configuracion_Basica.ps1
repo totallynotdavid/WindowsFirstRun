@@ -1,4 +1,9 @@
-# UNINSTALL UNWANTED APPS
+####################################################
+# Shell: Powershell (como usuario)
+# Pasos: # Desinstalar aplicaciones innecesarias
+#        # Instalar aplicaciones
+#        # Cambiar de Fondo de pantalla
+####################################################
 
 $packages = @("Clipchamp.Clipchamp", "Microsoft.YourPhone", "Microsoft.BingNews", "Microsoft.BingWeather", "Microsoft.XboxApp", "Microsoft.Todos", "Microsoft.WindowsMaps", "Microsoft.MicrosoftStickyNotes", "Microsoft.WindowsSoundRecorder", "Microsoft.GetHelp", "Microsoft.ZuneVideo", "Microsoft.People", "Microsoft.OneDriveSync", "Microsoft.3DBuilder", "Microsoft.Getstarted", "Microsoft.Microsoft3DViewer", "Microsoft.MicrosoftOfficeHub", "Microsoft.MicrosoftSolitaireCollection", "Microsoft.MicrosoftStickyNotes", "Microsoft.MixedReality.Portal", "Microsoft.Office.OneNote", "Microsoft.Print3D", "Microsoft.SkypeApp", "Microsoft.WindowsCamera", "Microsoft.WindowsFeedbackHub")
 
@@ -19,15 +24,21 @@ foreach ($package in $packages) {
         Write-Output "$package no esta instalado"
     }
   } catch {
-      Write-Output "Error desintalando $package: $($_.Exception.Message)"
+      Write-Output "Error desintalando $package : $($_.Exception.Message)"
   }
 }
 
-# INSTALL APPS
-# Also: https://gist.github.com/YoraiLevi/e1888ee1c06b34cb02d4b58b739301af
+# INSTALAR APLICACIONES
+# Pendiente: https://gist.github.com/YoraiLevi/e1888ee1c06b34cb02d4b58b739301af
 Get-AppxPackage Microsoft.PowerShell.Terminal | Add-AppxPackage
 
 # SET WALLPAPER
+Write-Host "Ahora, vamos a cambiar el fondo de pantalla."
+$answer = Read-Host "¿Deseas continuar con el script? (y/n)"
+if ($answer -ne 'y') {
+    Write-Host "Bip, bop, fue un gusto..."
+    Exit
+}
 
 # Set the path to the image file
 # To use a different image, change the $imageWallpaperName variable
@@ -61,31 +72,3 @@ Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Themes\P
 
 # Refresh the desktop
 RUNDLL32.EXE user32.dll, UpdatePerUserSystemParameters
-
-# Install Chocolatey
-
-$chocoDirectory = "C:\Chocolatey"
-
-# Check if Chocolatey is installed
-if (Get-Command choco -ErrorAction SilentlyContinue) {
-  Write-Output "Chocolatey ya está instalado."
-} else {
-  # Install Chocolatey
-  Write-Output "Instalando Chocolatey..."
-  Start-Process ./InstallingChoco.bat -Wait
-  RefreshEnv
-  Write-Output "Chocolatey instalado."
-}
-
-# Create a Windows Task Scheduler job
-$packagePath = "./InstallingChocoPackages.ps1"
-$packagePath = Resolve-Path $packagePath
-$action = New-ScheduledTaskAction -Execute 'powershell.exe' -Argument '-File "$packagePath"'
-$trigger = New-ScheduledTaskTrigger -AtStartup
-$settings = New-ScheduledTaskSettingsSet
-Register-ScheduledTask -Action $action -Trigger $trigger -TaskName 'ChocoPackages' -Settings $settings
-
-# Run the task
-Start-ScheduledTask -TaskName 'ChocoPackages'
-
-Restart-Computer -Force
