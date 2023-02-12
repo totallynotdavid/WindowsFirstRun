@@ -13,7 +13,7 @@ if (Get-Command choco -ErrorAction SilentlyContinue) {
   } else {
     # Install Chocolatey
     Write-Output "Instalando Chocolatey..."
-    $batFile = ".\1.2_Instalar_Chocolatey.bat"
+    $batFile = ".\1c_Instalar_Chocolatey.bat"
     do {
         $retryCount++
         if (Test-Path $batFile) {
