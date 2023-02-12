@@ -8,7 +8,7 @@
 # Jupyter: pandoc
 
 # Create an array with the packages to install. You should install anaconda and Python by yourself
-$packages = @("7zip", "aria2", "ffmpeg-full", "Ghostscript", "git", "golang", "gpg4win", "hugo-extended", "imagemagick", "krita", "mpc-hc-clsid2", "nano", "obs-studio", "openssl", "pandoc", "pngquant", "python3", "rclone", "tesseract", "yt-dlp", "anaconda3", "wget", "gallery-dl", "nvm", "vscode", "authy-desktop", "barrier")
+$packages = @("7zip", "aria2", "ffmpeg-full", "Ghostscript", "git", "golang", "gpg4win", "hugo-extended", "imagemagick", "krita", "mpc-hc-clsid2", "nano", "obs-studio", "openssl", "pandoc", "pngquant", "rclone", "tesseract", "yt-dlp", "wget", "gallery-dl", "nvm", "vscode", "barrier")
 # You should install "anaconda" and "Python" by yourself. There are some issues.
 # Recommended to use " Python 3.7.1"
 
@@ -28,4 +28,8 @@ foreach ($package in $packages) {
   }
 }
 
-Restart-Computer -Force
+# Ask if the user wants to restart the computer
+$restart = Read-Host "¿Deseas reiniciar? (y/n) Es recomendable."
+if ($restart -eq "y") {
+    Restart-Computer -Force
+}

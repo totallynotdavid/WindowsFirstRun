@@ -1,2 +1,3 @@
 nvm install latest
-nvm use latest
+nvm install 16.16.0
+nvm use 16.16.0

@@ -38,37 +38,37 @@ $answer = Read-Host "¿Deseas continuar con el script? (y/n)"
 if ($answer -ne 'y') {
     Write-Host "Bip, bop, fue un gusto..."
     Exit
-}
-
-# Set the path to the image file
-# To use a different image, change the $imageWallpaperName variable
-$imageWallpaperName = "Windows_Main.jpg"
-$imageOriginFolderPath = ".\wallpaper"
-$imageDestinationFolderPath = "C:\Users\Public\Pictures\Wallpaper"
-$imageOriginPath = $imageOriginFolderPath + "\" + $imageWallpaperName
-$imageDestinationPath = $imageDestinationFolderPath + "\" + $imageWallpaperName
-
-# Check if the destination folder exists
-if (Test-Path $imageDestinationFolderPath) {
-  Copy-Item "$imageOriginPath" "$imageDestinationPath" -Force
-  Write-Output "La carpeta de destino existe. Se ha copiado el archivo."
 } else {
-  New-Item -ItemType Directory -Path "$imageDestinationFolderPath" | Out-Null
-  Copy-Item "$imageOriginPath" "$imageDestinationPath" -Force
-  Write-Output "La carpeta de destino no existe. Se ha creado y copiado el archivo."
+  # Set the path to the image file
+  # To use a different image, change the $imageWallpaperName variable
+  $imageWallpaperName = "Windows_Main.jpg"
+  $imageOriginFolderPath = ".\wallpaper"
+  $imageDestinationFolderPath = "C:\Users\Public\Pictures\Wallpaper"
+  $imageOriginPath = $imageOriginFolderPath + "\" + $imageWallpaperName
+  $imageDestinationPath = $imageDestinationFolderPath + "\" + $imageWallpaperName
+
+  # Check if the destination folder exists
+  if (Test-Path $imageDestinationFolderPath) {
+    Copy-Item "$imageOriginPath" "$imageDestinationPath" -Force
+    Write-Output "La carpeta de destino existe. Se ha copiado el archivo."
+  } else {
+    New-Item -ItemType Directory -Path "$imageDestinationFolderPath" | Out-Null
+    Copy-Item "$imageOriginPath" "$imageDestinationPath" -Force
+    Write-Output "La carpeta de destino no existe. Se ha creado y copiado el archivo."
+  }
+
+  Write-Host "Actualizando el fondo de pantalla: $imageDestinationPath"
+
+  # Set the wallpaper style
+  $wallpaperStyle = 4 # 0 (Center) - 1 (Tile) - 2 (Stretch) - 3 (Fit) - 4 (Fill) - 5 (Span)
+
+  # Set the registry key
+  Set-ItemProperty -Path "HKCU:\Control Panel\Desktop" -Name "Wallpaper" -Value $imageDestinationPath
+  Set-ItemProperty -Path "HKCU:\Control Panel\Desktop" -Name "WallpaperStyle" -Value $wallpaperStyle
+  Set-ItemProperty -Path "HKCU:\Control Panel\Desktop" -Name "AutoColorization" -Value 1
+  Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize" -Name "AppsUseLightTheme" -Value 0 # 0 (Dark) - 1 (Light)
+  Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize" -Name "SystemUsesLightTheme" -Value 0 # 0 (Dark) - 1 (Light)
 }
-
-Write-Host "Actualizando el fondo de pantalla: $imageDestinationPath"
-
-# Set the wallpaper style
-$wallpaperStyle = 4 # 0 (Center) - 1 (Tile) - 2 (Stretch) - 3 (Fit) - 4 (Fill) - 5 (Span)
-
-# Set the registry key
-Set-ItemProperty -Path "HKCU:\Control Panel\Desktop" -Name "Wallpaper" -Value $imageDestinationPath
-Set-ItemProperty -Path "HKCU:\Control Panel\Desktop" -Name "WallpaperStyle" -Value $wallpaperStyle
-Set-ItemProperty -Path "HKCU:\Control Panel\Desktop" -Name "AutoColorization" -Value 1
-Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize" -Name "AppsUseLightTheme" -Value 0 # 0 (Dark) - 1 (Light)
-Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize" -Name "SystemUsesLightTheme" -Value 0 # 0 (Dark) - 1 (Light)
 
 # Refresh the desktop
 RUNDLL32.EXE user32.dll, UpdatePerUserSystemParameters
