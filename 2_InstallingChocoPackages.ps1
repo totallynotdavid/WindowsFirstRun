@@ -1,11 +1,16 @@
-# ADMINISTRATOR
-# Install Chocolatey packages
+####################################################
+# Shell: Powershell (como administrador)
+# Pasos: # Instalar aplicaciones a través de Chocolatey
+####################################################
 
-# Create an array with the packages to install
 # Some packages are required by others. Here some of them.
 # Tesseract: Ghostscript
 # Jupyter: pandoc
+
+# Create an array with the packages to install. You should install anaconda and Python by yourself
 $packages = @("7zip", "aria2", "ffmpeg-full", "Ghostscript", "git", "golang", "gpg4win", "hugo-extended", "imagemagick", "krita", "mpc-hc-clsid2", "nano", "obs-studio", "openssl", "pandoc", "pngquant", "python3", "rclone", "tesseract", "yt-dlp", "anaconda3", "wget", "gallery-dl", "nvm", "vscode", "authy-desktop", "barrier")
+# You should install "anaconda" and "Python" by yourself. There are some issues.
+# Recommended to use " Python 3.7.1"
 
 foreach ($package in $packages) {
   # Add a counter to show the progress
