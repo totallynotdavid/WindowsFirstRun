@@ -32,7 +32,7 @@ If ($isAdmin) {
 
         # Preparando para el siguiente reboot
         Start-Process powershell.exe -ArgumentList "-File `"$($PWD)\1a_Pre-Reboot.ps1`"" -Verb RunAs
-        Start-Process powershell.exe -ArgumentList "-File `"$($PWD)\2_InstallingChocoPackages.ps1`"" -Verb RunAs
+        Start-Process powershell.exe -ArgumentList "-File `"$($PWD)\2_Instalando_paquetes_de_Chocolatey.ps1`"" -Verb RunAs
 
         # Actualizando el tracking
         $outputFilename = "track"
@@ -50,8 +50,8 @@ If ($isAdmin) {
 
     } ElseIf ($trackContent -eq "step 2 completed") {
         Write-Host "Estamos en el tercer paso, hasta ahora reiniciaste dos veces"
-        Start-Process powershell.exe -ArgumentList "-File `"$($PWD)\3_InstallingPythonPackages.ps1`"" -Verb RunAs
-        Start-Process powershell.exe -ArgumentList "-File `"$($PWD)\4_InstallingNPM.ps1`"" -Verb RunAs
+        Start-Process powershell.exe -ArgumentList "-File `"$($PWD)\3_Instalando_paquetes_de_Python.ps1`"" -Verb RunAs
+        Start-Process powershell.exe -ArgumentList "-File `"$($PWD)\4_Instalando_NodeJS.ps1`"" -Verb RunAs
         Write-Host "¡Hemos terminado! No hay un Exit automático para ver posibles errores registrados"
     }
     
