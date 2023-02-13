@@ -19,6 +19,12 @@ If ($isAdmin) {
         Start-Process powershell.exe -Credential $credential -ArgumentList "-File `"$($PWD)\1_Configuracion_Basica.ps1`""
         Start-Process powershell.exe -ArgumentList "-File `"$($PWD)\1a_Pre-Reboot.ps1`"" -Verb RunAs
         Start-Process powershell.exe -ArgumentList "-File `"$($PWD)\1b_Pre-Chocolatey.ps1`"" -Verb RunAs
+
+        # Ask if the user wants to restart the computer
+        $restart = Read-Host "¿Deseas reiniciar? (y/n) Es recomendable."
+        if ($restart -eq "y") {
+            Restart-Computer -Force
+        }
     }
 
     If ($trackContent -eq "step 1 completed") {
@@ -26,6 +32,7 @@ If ($isAdmin) {
 
         # Preparando para el siguiente reboot
         Start-Process powershell.exe -ArgumentList "-File `"$($PWD)\1a_Pre-Reboot.ps1`"" -Verb RunAs
+        Start-Process powershell.exe -ArgumentList "-File `"$($PWD)\2_InstallingChocoPackages.ps1`"" -Verb RunAs
 
         # Actualizando el tracking
         $outputFilename = "track"
@@ -35,7 +42,11 @@ If ($isAdmin) {
         # Verificar que se creó el archivo correctamente
         Get-ChildItem $outputPath
 
-        Start-Process powershell.exe -ArgumentList "-File `"$($PWD)\2_InstallingChocoPackages.ps1`"" -Verb RunAs
+        # Ask if the user wants to restart the computer
+        $restart = Read-Host "¿Deseas reiniciar? (y/n) Es recomendable."
+        if ($restart -eq "y") {
+            Restart-Computer -Force
+        }
 
     } ElseIf ($trackContent -eq "step 2 completed") {
         Write-Host "Estamos en el tercer paso, hasta ahora reiniciaste dos veces"
