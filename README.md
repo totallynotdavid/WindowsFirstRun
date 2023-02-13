@@ -9,3 +9,11 @@ Este repositorio contiene varios scripts para configurar una nueva instalación 
 Este archivo se encargará de ejecutar el resto de los scripts necesarios para configurar la instalación de Windows.
 
 Cada uno de los scripts en el repositorio tiene una descripción que explica qué hace. Si deseas, puedes revisar la descripción de cada script para entender mejor el proceso de instalación.
+
+Algunas notas:
+- Barrier requiere Bonjour y además tienes que ejecutar lo siguiente la primera vez:
+
+   ```
+   cd /Users/<user>/Library/Application Support/barrier/SSL
+   openssl req -x509 -nodes -days 365 -subj /CN=Barrier -newkey rsa:4096 -keyout Barrier.pem -out Barrier.pem
+   ```

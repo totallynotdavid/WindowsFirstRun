@@ -23,5 +23,3 @@ if (Test-Path spa.traineddata) {
   # Move the file to the Tesseract folder
   Move-Item spa.traineddata "C:\Program Files\Tesseract-OCR\tessdata\spa.traineddata"
 }
-
-# Start-Process powershell.exe -Verb Runas -ArgumentList '-NoExit -File ./InstallingNPM.ps1'
