@@ -26,9 +26,3 @@ foreach ($package in $packages) {
     Write-Host "$package ya esta instalado"
   }
 }
-
-# Ask if the user wants to restart the computer
-$restart = Read-Host "¿Deseas reiniciar? (y/n) Es recomendable."
-if ($restart -eq "y") {
-    Restart-Computer -Force
-}
